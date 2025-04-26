@@ -1,4 +1,4 @@
-# 👼 GestãoAgro
+# GestãoAgro
 
 ![GitHub repo size](https://img.shields.io/github/repo-size/EdsonFAS/GestaoAgro-Vue)
 ![GitHub contributors](https://img.shields.io/github/contributors/EdsonFAS/GestaoAgro-Vue)
