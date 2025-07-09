@@ -15,7 +15,7 @@
         <div class="flex items-center justify-between">
           <div>
             <p class="text-gray-500">Total de Animais</p>
-            <h3 class="text-2xl font-bold text-green-600">{{ animais.length }}</h3>
+            <h3 class="text-2xl font-bold text-green-600"></h3>
           </div>
           <div class="bg-green-100 p-3 rounded-full">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -29,7 +29,7 @@
         <div class="flex items-center justify-between">
           <div>
             <p class="text-gray-500">Média de Idade (meses)</p>
-            <h3 class="text-2xl font-bold text-blue-600">{{ mediaIdade }}</h3>
+            <h3 class="text-2xl font-bold text-blue-600"></h3>
           </div>
           <div class="bg-blue-100 p-3 rounded-full">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -43,7 +43,7 @@
         <div class="flex items-center justify-between">
           <div>
             <p class="text-gray-500">Machos / Fêmeas</p>
-            <h3 class="text-2xl font-bold text-yellow-600">{{ machos }} / {{ femeas }}</h3>
+            <h3 class="text-2xl font-bold text-yellow-600"></h3>
           </div>
           <div class="bg-yellow-100 p-3 rounded-full">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-yellow-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -58,19 +58,19 @@
       <table class="min-w-full divide-y divide-gray-200">
         <thead class="bg-gray-50">
           <tr>
-            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nome</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Brinco</th>
             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Idade</th>
             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Sexo</th>
-            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Grupo</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Raça</th>
             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ações</th>
           </tr>
         </thead>
         <tbody class="bg-white divide-y divide-gray-200">
-          <tr v-for="animal in animais" :key="animal.id" class="hover:bg-gray-50">
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ animal.nome }}</td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ animal.idade }} meses</td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ animal.sexo }}</td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ animal.grupo }}</td>
+          <tr  v-for="animal in animais" :key="animal.CodigoBrinco" class="hover:bg-gray-50">
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ animal.CodigoBrinco }}</td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ animal.Idade }} meses</td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ animal.Sexo }}</td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ animal.Raca }}</td>
             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
               <button class="text-blue-600 hover:text-blue-900 mr-3">Editar</button>
               <button class="text-red-600 hover:text-red-900">Excluir</button>
@@ -79,34 +79,28 @@
         </tbody>
       </table>
     </div>
+  
   </div>
 </template>
 
 <script>
+
+import api from '@/services/api';
+import { onMounted, ref, } from 'vue';
 export default {
   name: 'AnimalView',
-  data() {
-    return {
-      animais: [
-        { id: 1, nome: 'Bela', idade: 24, sexo: 'Fêmea', grupo: 'Leiteiras' },
-        { id: 2, nome: 'Thor', idade: 30, sexo: 'Macho', grupo: 'Corte' },
-        { id: 3, nome: 'Luna', idade: 18, sexo: 'Fêmea', grupo: 'Reprodução' },
-        { id: 4, nome: 'Zeus', idade: 36, sexo: 'Macho', grupo: 'Corte' }
-      ]
-    }
+  setup() {
+    const animais = ref([]);
+    const fetchAnimais = () => 
+    api.get("/animal").then((response) => (animais.value = response.data.Animais));
+   
+  onMounted(fetchAnimais)
+
+  
+  return{animais}
   },
-  computed: {
-    mediaIdade() {
-      if (this.animais.length === 0) return 0;
-      const total = this.animais.reduce((soma, a) => soma + a.idade, 0);
-      return (total / this.animais.length).toFixed(1);
-    },
-    machos() {
-      return this.animais.filter(a => a.sexo.toLowerCase() === 'macho').length;
-    },
-    femeas() {
-      return this.animais.filter(a => a.sexo.toLowerCase() === 'fêmea').length;
-    }
-  }
+
+  
+ 
 }
 </script>

@@ -60,17 +60,15 @@
           <tr>
             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Grupo</th>
             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Quantidade</th>
-            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Localização</th>
-            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Responsável</th>
+            
             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ações</th>
           </tr>
         </thead>
         <tbody class="bg-white divide-y divide-gray-200">
-          <tr v-for="grupo in grupos" :key="grupo.id" class="hover:bg-gray-50">
-            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ grupo.nome }}</td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ grupo.quantidade }}</td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ grupo.localizacao }}</td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ grupo.responsavel }}</td>
+          <tr v-for="rebanho in rebanhos" :key="rebanho.IdRebanho" class="hover:bg-gray-50">
+            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ rebanho.Tipo }}</td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ rebanho.Destino }}</td>
+           
             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
               <button class="text-blue-600 hover:text-blue-900 mr-3">Editar</button>
               <button class="text-red-600 hover:text-red-900">Excluir</button>
@@ -83,17 +81,23 @@
 </template>
 
 <script>
+
+import api from '@/services/api';
+import { onMounted, ref, } from 'vue';
 export default {
   name: 'RebanhoView',
-  data() {
-    return {
-      grupos: [
-        { id: 1, nome: 'Leiteiras', quantidade: 320, localizacao: 'Pasto Norte', responsavel: 'João Silva' },
-        { id: 2, nome: 'Corte', quantity: 280, localizacao: 'Pasto Sul', responsavel: 'Maria Souza' },
-        { id: 3, nome: 'Reprodução', quantity: 150, localizacao: 'Pasto Leste', responsavel: 'Carlos Oliveira' },
-        { id: 4, nome: 'Bezerros', quantity: 180, localizacao: 'Creche', responsavel: 'Ana Santos' }
-      ]
-    }
-  }
+
+  setup() {
+    const rebanhos = ref([]);
+    const fetchRebanhos = () => 
+    api.get("/rebanhos").then((response) => (rebanhos.value = response.data.Rebanho));
+   
+  onMounted(fetchRebanhos)
+
+  
+  return{rebanhos}
+  },
+
+  
 }
 </script>
