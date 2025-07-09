@@ -1,6 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Home from '../views/Home.vue'
-import Animal from '@/views/Animal.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -8,20 +6,44 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: Home,
+      component: () => import('../views/Home.vue')
     },
-
     {
       path: '/animal',
       name: 'animal',
-      component: Animal,
+      component: () => import('../views/Animal.vue')
     },
     {
-      path: "/cadastrarAnimal",
-      name: "cadastrarAnimal",
-      component: () => import("../views/CadastrarAnimal.vue"),
+      path: '/cadastrarAnimal',
+      name: 'cadastrarAnimal',
+      component: () => import('../views/CadastrarAnimal.vue')
+    },
+    {
+      path: '/rebanhos',
+      name: 'rebanhos',
+      component: () => import('../views/Rebanho.vue')
+    },
+    {
+      path: '/pastagem',
+      name: 'pastagem',
+      component: () => import('../views/Pastagem.vue')
+    },
+    {
+      path: '/alimentacao',
+      name: 'alimentacao',
+      component: () => import('../views/Alimentacao.vue')
+    },
+    {
+      path: '/producao',
+      name: 'producao',
+      component: () => import('../views/Producao.vue')
+    },
+    {
+      path: '/saude',
+      name: 'saude',
+      component: () => import('../views/Saude.vue')
     }
-  ],
+  ]
 })
 
 export default router
