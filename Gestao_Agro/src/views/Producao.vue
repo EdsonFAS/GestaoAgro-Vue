@@ -59,18 +59,17 @@
         <thead class="bg-gray-50">
           <tr>
             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Data</th>
-            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Grupo</th>
+          
             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Quantidade (L)</th>
             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Responsável</th>
             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ações</th>
           </tr>
         </thead>
         <tbody class="bg-white divide-y divide-gray-200">
-          <tr v-for="producao in producoes" :key="producao.id" class="hover:bg-gray-50">
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ producao.data }}</td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ producao.grupo }}</td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ producao.quantidade }}</td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ producao.responsavel }}</td>
+          <tr v-for="producao in producoes" :key="producao.Id" class="hover:bg-gray-50">
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ producao.TipoProducao }}</td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ producao.QuantidadeProduzida }}</td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ producao.fk_Animal_CodigoBrinco }}</td>
             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
               <button class="text-blue-600 hover:text-blue-900 mr-3">Editar</button>
               <button class="text-red-600 hover:text-red-900">Excluir</button>
@@ -83,27 +82,19 @@
 </template>
 
 <script>
+import api from '@/services/api';
+import { onMounted, ref, } from 'vue';
 export default {
   name: 'ProducaoView',
-  data() {
-    return {
-      producoes: [
-        { id: 1, data: '2025-07-01', grupo: 'Leiteiras', quantidade: 400, responsavel: 'João Silva' },
-        { id: 2, data: '2025-07-02', grupo: 'Leiteiras', quantidade: 380, responsavel: 'Maria Souza' },
-        { id: 3, data: '2025-07-03', grupo: 'Leiteiras', quantidade: 420, responsavel: 'Carlos Oliveira' },
-        { id: 4, data: '2025-07-04', grupo: 'Leiteiras', quantidade: 390, responsavel: 'Ana Santos' }
-      ]
-    }
-  },
-  computed: {
-    totalProducao() {
-      return this.producoes.reduce((soma, item) => soma + item.quantidade, 0);
-    },
-    mediaProducao() {
-      const total = this.totalProducao;
-      const dias = this.producoes.length;
-      return dias > 0 ? (total / dias).toFixed(1) : 0;
-    }
+setup() {
+    const producoes = ref([]);
+    const fetchProducoes = () => 
+    api.get("/producao").then((response) => (producoes.value = response.data.producoes));
+   
+  onMounted(fetchProducoes)
+
+  
+  return{producoes}
   }
 }
 </script>
