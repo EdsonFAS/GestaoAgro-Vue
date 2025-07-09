@@ -1,112 +1,121 @@
-<script setup lang="ts">
-
-</script>
-
 <template>
-<div class="bg-gray-300/60 min-h-screen flex">
-    
-        <!-- Conteúdo Principal -->
-        <div class="ml-64 p-8 w-full">
-            <h2 class="text-3xl font-bold text-gray-800">📊 Dashboard</h2>
-    
-            <!-- Cards Estatísticas -->
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mt-6">
-                <div class="bg-white p-6 rounded-xl drop-shadow-xl shadow-neutral-950 border border-neutral-600/10  text-center">
-                    <h3 class="text-lg font-semibold text-gray-600">🐄 Total de Animais</h3>
-                    <p class="text-4xl font-bold text-green-600 mt-2">1.290</p>
-                </div>
-                <div class="bg-white p-6 rounded-xl drop-shadow-xl shadow-neutral-950 border border-neutral-600/10  text-center">
-                    <h3 class="text-lg font-semibold text-gray-600">🥛 Leiteiros</h3>
-                    <p class="text-4xl font-bold text-blue-600 mt-2">523</p>
-                </div>
-                <div class="bg-white p-6 rounded-xl drop-shadow-xl shadow-neutral-950 border border-neutral-600/10  text-center">
-                    <h3 class="text-lg font-semibold text-gray-600">🥩 Corte</h3>
-                    <p class="text-4xl font-bold text-red-600 mt-2">445</p>
-                </div>
-                <div class="bg-white p-6 rounded-xl drop-shadow-xl shadow-neutral-950 border border-neutral-600/10  text-center">
-                    <h3 class="text-lg font-semibold text-gray-600">🐂 Reprodução</h3>
-                    <p class="text-4xl font-bold text-yellow-600 mt-2">322</p>
-                </div>
-            </div>
-    
-            <!-- Gráficos -->
-            <div class="flex fle  w- gap-2 mt-8">
-                <!-- Gráfico de Crescimento -->
-                <div class="bg-white p-4 rounded-xl w-[70%] drop-shadow-xl shadow-neutral-950 border border-neutral-600/10 ">
-                    <h3 class="text-xl font-semibold text-gray-700 mb-4">📈 Crescimento do Rebanho</h3>
-                    <canvas id="graficoCrescimento" ></canvas>
-                </div>
-    
-                <!-- Gráfico de Rosca (Distribuição de Animais) -->
-                <div class="bg-white p-6 rounded-xl drop-shadow-xl shadow-neutral-950 border border-neutral-600/10 w-[30%]">
-                    <h3 class="text-xl font-semibold text-gray-700 mb-4">📊 Distribuição de Animais</h3>
-    
-                    <canvas  id="graficoRosca"></canvas>
-                </div>
-            </div>
-        </div>
-</div>
+  <div class="ml-40 lg:ml-52 p-8 min-h-screen bg-gray-50">
+    <h1 class="text-3xl font-bold text-gray-800 mb-8">Dashboard</h1>
 
+    <!-- Cards Estatísticas -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+      <div class="bg-white p-6 rounded-xl shadow">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-gray-500">Total de Animais</p>
+            <h3 class="text-2xl font-bold text-green-600">1.290</h3>
+          </div>
+          <div class="bg-green-100 p-3 rounded-full">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white p-6 rounded-xl shadow">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-gray-500">Animais Saudáveis</p>
+            <h3 class="text-2xl font-bold text-blue-600">1.156</h3>
+          </div>
+          <div class="bg-blue-100 p-3 rounded-full">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white p-6 rounded-xl shadow">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-gray-500">Em Tratamento</p>
+            <h3 class="text-2xl font-bold text-yellow-600">84</h3>
+          </div>
+          <div class="bg-yellow-100 p-3 rounded-full">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-yellow-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white p-6 rounded-xl shadow">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-gray-500">Produção Diária</p>
+            <h3 class="text-2xl font-bold text-red-600">320 L</h3>
+          </div>
+          <div class="bg-red-100 p-3 rounded-full">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Gráficos -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div class="bg-white p-6 rounded-xl shadow">
+        <h3 class="text-xl font-semibold mb-4">Crescimento do Rebanho</h3>
+        <canvas id="growthChart" height="250"></canvas>
+      </div>
+      
+      <div class="bg-white p-6 rounded-xl shadow">
+        <h3 class="text-xl font-semibold mb-4">Distribuição por Tipo</h3>
+        <canvas id="distributionChart" height="250"></canvas>
+      </div>
+    </div>
+  </div>
 </template>
 
-<script setup lang="ts">
+<script>
+import Chart from 'chart.js/auto'
 
-import Chart from 'chart.js/auto';
-
-import { defineComponent, onMounted } from 'vue';
-
-
-        onMounted(() => {
-            const ctx = document.getElementById('graficoCrescimento') as HTMLCanvasElement;
-            const ctx2 = document.getElementById('graficoRosca') as HTMLCanvasElement;
-
-           
-            new Chart(ctx, {
-                type: 'line',
+export default {
+  name: 'HomeView',
+  mounted() {
+    // Gráfico de crescimento
+    const growthCtx = document.getElementById('growthChart')
+    new Chart(growthCtx, {
+      type: 'line',
       data: {
-        labels: ["Jan", "Fev", "Mar"],
+        labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai'],
         datasets: [{
-          label: "Crescimento",
-          data: [992, 1065, 1290],
-          borderColor: "green",
-          borderWidth: 2,
-          fill: true,
-          backgroundColor: "rgba(34, 197, 94, 0.2)"
+          label: 'Total de Animais',
+          data: [950, 1020, 1100, 1150, 1290],
+          borderColor: '#10B981',
+          backgroundColor: 'rgba(16, 185, 129, 0.1)',
+          tension: 0.3,
+          fill: true
         }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            display: false
-                        }
-                    }
-                }
-            });
+      }
+    })
 
-            // Gráfico de Rosca
-            new Chart(ctx2, {
-                type: 'doughnut',
-                data: {
-                    labels: ['Leiteiros', 'Corte', 'Reprodução'],
-                    datasets: [{
-                        data: [523, 445, 322],
-                        backgroundColor: ['#0077FF', '#F8260B', '#FF9A0D'],
-                
-                    }]
-                },
-                options: {
-                    responsive: true,
-                      cutout: '64%',
-                    plugins: {
-                        legend: {
-                            position: 'top',
-                        }
-                    }
-                }
-            });
-        });
-
-
-
+    // Gráfico de distribuição
+    const distributionCtx = document.getElementById('distributionChart')
+    new Chart(distributionCtx, {
+      type: 'doughnut',
+      data: {
+        labels: ['Leiteiros', 'Corte', 'Reprodução', 'Bezerros'],
+        datasets: [{
+          data: [420, 380, 320, 170],
+          backgroundColor: [
+            '#3B82F6',
+            '#EF4444',
+            '#F59E0B',
+            '#10B981'
+          ]
+        }]
+      }
+    })
+  }
+}
 </script>
