@@ -1,7 +1,7 @@
 <template>
   <div class="ml-40 bg-neutral-200 flex justify-center h-screen lg:ml-52 p-8 ">
 
-   <div class="w-[80%] p-6   bg-white drop-shadow-lg shadow-neutral-600/50 rounded-2xl">
+   <div class="w-[80%] p-6 abs  bg-white drop-shadow-lg shadow-neutral-600/50 rounded-2xl">
      <h1 class="font-bold my-6 text-center
       text-3xl text-green-600">Cadastrar Animal</h1>
      <form class="flex flex-col gap-10 w-full  mt-4  p-6 " id="animal-form">

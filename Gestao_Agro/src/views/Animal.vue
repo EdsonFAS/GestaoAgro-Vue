@@ -2,7 +2,7 @@
   <div class="ml-40 lg:ml-52 p-8 min-h-screen bg-gray-50">
     <div class="flex justify-between items-center mb-8">
       <h1 class="text-3xl font-bold text-gray-800">Gestão de Animais</h1>
-      <button class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 flex items-center">
+      <button class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 flex items-center cursor-pointer" @click="abrirCadastro">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
         </svg>
@@ -58,19 +58,21 @@
       <table class="min-w-full divide-y divide-gray-200">
         <thead class="bg-gray-50">
           <tr>
-            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Brinco</th>
-            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Idade</th>
-            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Sexo</th>
-            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Raça</th>
-            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ações</th>
+            <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Brinco</th>
+            <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Idade</th>
+            <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Sexo</th>
+            <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Raça</th>
+                 <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Cor</th>
+            <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Ações</th>
           </tr>
         </thead>
         <tbody class="bg-white divide-y divide-gray-200">
-          <tr  v-for="animal in animais" :key="animal.CodigoBrinco" class="hover:bg-gray-50">
-          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ animal.CodigoBrinco }}</td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ animal.Idade }} meses</td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ animal.Sexo }}</td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ animal.Raca }}</td>
+          <tr  v-for="Animal in animais" :key="Animal.CodigoBrinco" class="hover:bg-gray-50">
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ Animal.CodigoBrinco }}</td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ Animal.Idade }} meses</td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ Animal.Sexo }}</td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ Animal.Raca }}</td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ Animal.Cor }}</td>
             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
               <button class="text-blue-600 hover:text-blue-900 mr-3">Editar</button>
               <button class="text-red-600 hover:text-red-900">Excluir</button>
@@ -79,28 +81,204 @@
         </tbody>
       </table>
     </div>
-  
+
+
+   
   </div>
+
+  <div v-if="CadastroModal" class="w-full absolute  top-0 h-lvh flex justify-center bg-black/50 backdrop-blur-sm">
+ <div class="w-[76%] p-6 h-[88%] mt-18 top-12 flex flex-col  bg-white drop-shadow-lg shadow-neutral-600/50 rounded-2xl">
+  <button type="button" @click="fecharCadastro" class="self-end mr-4 cursor-pointer">
+    <svg  xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24"><path fill="currentColor" d="m12 13.4l-4.9 4.9q-.275.275-.7.275t-.7-.275t-.275-.7t.275-.7l4.9-4.9l-4.9-4.9q-.275-.275-.275-.7t.275-.7t.7-.275t.7.275l4.9 4.9l4.9-4.9q.275-.275.7-.275t.7.275t.275.7t-.275.7L13.4 12l4.9 4.9q.275.275.275.7t-.275.7t-.7.275t-.7-.275z"/></svg>
+  </button>
+   
+     <h1 class="font-bold my-6 text-center
+      text-3xl text-green-600">Cadastrar Animal</h1>
+     <form @submit.prevent="cadastrarAnimal" ref="formCadastro" class="flex flex-col gap-10 w-full  mt-4  p-6 " id="animal-form">
+
+        <div class="flex justify-center  gap-6">
+          <div class="w-[44%]">
+            <label class="font-bold ml-0.5 mb-0.5 block" for="codigo_brinco">Identificador do Animal:</label>
+            <input  class="w-full font-semibold bg-white drop-shadow-sm h-9 px-4 focus:border-green-600 focus:border-[2px] focus:outline-none border border-gray-500/50 rounded-md mb-1" placeholder="Ex: BR001"  type="text" id="codigo_brinco" v-model="animal.CodigoBrinco" required />
+          </div>
+          <div class="w-[44%]">
+            <label class="font-bold ml-0.5 mb-0.5 block" for="codigo_brinco">Nome do Animal:</label>
+            <input  class="w-full font-semibold bg-white drop-shadow-sm h-9 px-4 focus:border-green-600 focus:border-[2px] focus:outline-none border border-gray-500/50 rounded-md mb-1" placeholder="Ex: Mimoza"  type="text" id="codigo_brinco" v-model="animal.Nome" required />
+          </div>
+        </div>
+    <div class="flex justify-center gap-6">
+
+          <div class="w-[28.6%]">
+            <label class="font-bold block" for="cor">Cor do Animal:</label>
+            <input class="w-full font-semibold bg-white drop-shadow-sm h-9 px-4 focus:border-green-600 focus:border-[2px] focus:outline-none border border-gray-500/50 rounded-md mb-1" placeholder="Ex: Marrom" type="text" id="cor" v-model="animal.Cor"  required />
+          </div>
+
+          <div class="w-[28.6%]">
+            <label class="font-bold block" for="peso">Peso do Animal (Kg):</label>
+            <input class="w-full font-semibold bg-white drop-shadow-sm h-9 px-4 focus:border-green-600 focus:border-[2px] focus:outline-none border border-gray-500/50 rounded-md mb-1" placeholder="Ex: 450" type="number" id="peso" v-model="animal.Peso" required />
+          </div>
+          <div class="w-[28.6%]">
+             <label class="font-bold  block" for="sexo">Sexo do Animal:</label>
+        <select class="font-bold w-full p-1 border border-gray-500/50  h-9 rounded-md  mb-1" name="sexo" id="sexo" v-model="animal.Sexo">
+           <option disabled value="">Selecionar</option>
+          <option value="M">Macho</option>
+          <option value="F">Fêmea</option>
+        </select>
+          </div>
+    </div>
+
+      <div class="flex w-full justify-center gap-6">
+        <div class="w-[44%]">
+          <label class="font-bold block" for="Idade">Idade do Animal:</label>
+          <div class=" flex w-full gap-2">
+            <input class="font-semibold w-[70%] bg-white drop-shadow-sm h-9 px-4 focus:border-green-600 focus:border-[2px] focus:outline-none border border-gray-500/50 rounded-md mb-1" placeholder="Ex: 02" type="number" id="Idade" v-model="animal.Idade"  required />
+            <select class="w-[30%] font-bold p-1 border border-gray-500/50  h-9 rounded-md" name="tipo_idade" id="tipo_idade">
+               <option disabled value="">Selecionar</option>
+              <option value="dias">Dias</option>
+              <option value="semanas">Anos</option>
+              <option value="meses">Meses</option>
+              <option value="anos">Anos</option>
+            </select>
+          </div>
+        </div>
+        <div class="w-[44%]">
+          <label class="font-bold block" for="status">Status de Saúde</label>
+          <select class="w-full font-bold p-1 border border-gray-500/50  h-9 rounded-md" name="status"  id="status">
+             <option disabled value="">Selecionar</option>
+            <option value="saudável">Saudável</option>
+            <option value="recém nascido">Recém Nascido</option>
+            <option value="vaciando">Vaciando</option>
+            <option value="gestante">Gestante</option>
+            <option value="em observação">Em observação</option>
+            <option value="doente">Doente</option>
+            <option value="em tratamento">Em tratamento</option>
+            <option value="recuperado">Em Recuperação</option>
+            <option value="suspeita de doença">Suspeita de doença</option>
+            <option value="isolado">Isolado</option>
+            <option value="quarentena">Quarentena</option>
+            <option value="ferido">Ferido</option>
+            <option value="deficiente">Deficiente</option>
+            <option value="óbito">óbito</option>
+          </select>
+        </div>
+
+      </div>
+
+      <div class=" ml-14 flex flex-col gap-2  rounded-md  w-[44%]">
+          <label class="font-bold block" for="raca">Raça do Animal:</label>
+      <select class="w-full font-bold p-1 border border-gray-500/50  h-9 rounded-md" v-model="animal.Raca"  name="raca" id="raca">
+       <option disabled value="">Selecionar</option>
+        <option value="Nelore">Nelore</option>
+        <option value="Gir">Gir</option>
+        <option value="Guzerá">Guzerá</option>
+        <option value="Brahman">Brahman</option>
+        <option value="Tabapuã">Tabapuã</option>
+        <option value="Simental">Simental</option>
+        <option value="Angus">Angus</option>
+        <option value="Hereford">Hereford</option>
+        <option value="Holandesa">Holandesa</option>
+        <option value="Jersey">Jersey</option>
+        <option value="Pardo">Pardo</option>
+        <option value="Senepol">Senepol</option>
+        <option value="Girolando">Girolando</option>
+        <option value="Brangus">Brangus</option>
+        <option value="Braford">Braford</option>
+        <option value="Jersolando">Jersolando</option>
+        <option value="Canchim">Canchim</option>
+        <option value="Brahmousin">Brahmousin</option>
+      </select>
+      </div>
+
+      <div class="flex justify-center gap-6">
+        <div class="w-[44%]">
+          <label class="font-bold block" for="origem_paterna">Identificador Paterna:</label>
+          <input class="w-full font-semibold bg-white drop-shadow-sm h-9 px-4 focus:border-green-600 focus:border-[2px] focus:outline-none border border-gray-500/50 rounded-md mb-1" type="text" id="origem_paterna"  required />
+        </div>
+        <div class="w-[44%]">
+          <label class="font-bold block" for="origem_materna">Identificador Materna:</label>
+          <input class="w-full  font-semibold bg-white drop-shadow-sm h-9 px-4 focus:border-green-600 focus:border-[2px] focus:outline-none border border-gray-500/50 rounded-md mb-1" type="text" id="origem_materna"  required />
+        </div>
+      </div>
+      <button  class="w-48 self-center font-semibold justify-center bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 flex items-center cursor-pointer" type="submit">Cadastrar Animal</button>
+     </form>
+   </div>
+   </div>
+
 </template>
 
-<script>
+<script setup lang="ts">
 
 import api from '@/services/api';
-import { onMounted, ref, } from 'vue';
-export default {
-  name: 'AnimalView',
-  setup() {
-    const animais = ref([]);
+import { onMounted, ref, watch, } from 'vue';
+
+  
+   const animais = ref<any[]>([])
     const fetchAnimais = () => 
     api.get("/animal").then((response) => (animais.value = response.data.Animais));
    
+  console.log(animais)
+
   onMounted(fetchAnimais)
 
-  
-  return{animais}
-  },
+  const formCadastro = ref<HTMLFormElement | null>(null)
+    const CadastroModal = ref(false)
+    const abrirCadastro = () =>{
+      CadastroModal.value = true
+    } 
+    
+        const fecharCadastro = () =>{
+      CadastroModal.value = false
+      formCadastro.value?.reset()
+      animal.value = {
+    CodigoBrinco: '',
+    Nome: '',
+    Raca: '',
+    Peso: null,
+    Idade: null,
+    Cor: '',
+    Sexo: '',
+    IdPaterno: '',
+    IdMatriz: '',
+   
+  }
+    } 
 
+    watch(CadastroModal,(valor) => {
+      document.body.style.overflow = valor ? 'hidden':''
+    })
+    
+
+    const animal = ref({
+    CodigoBrinco: '',
+    Nome: '',
+    Raca: '',
+    Peso: null,
+    Idade: null,
+    Cor: '',
+    Sexo: '',
+    IdPaterno: '',
+    IdMatriz: '',
+   
+})
+   
+const cadastrarAnimal = async () => {
+  try {
+
+    console.log('Payload correto:', animal.value)
+
+    await api.post('/animal', animal.value)
+    await fetchAnimais()
+    fecharCadastro()
+  } catch (error: any) {
+    if (error.response) {
+      console.error('Status:', error.response.status)
+      console.error('Erro da API:', error.response.data)
+    } else {
+      console.error(error)
+    }
+  }
+}
   
  
-}
+
 </script>
