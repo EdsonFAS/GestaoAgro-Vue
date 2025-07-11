@@ -1,4 +1,4 @@
-<template>
+<!--<template>
   <div class="container">
     <h1>Selecione a Raça</h1>
 
@@ -24,7 +24,7 @@
 
     </div>
   </div>
-  <!-- <label class="block" for="raca">Raça do Animal:</label>
+   <label class="block" for="raca">Raça do Animal:</label>
       <select name="raca" id="raca">
         <option value="Nelore">Nelore</option>
         <option value="Gir">Gir</option>
@@ -45,7 +45,7 @@
         <option value="Canchim">Canchim</option>
         <option value="Brahmousin">Brahmousin</option>
       </select>
-    -->
-</template>
+ 
+</template>   -->
 
 
