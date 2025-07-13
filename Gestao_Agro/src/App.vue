@@ -1,12 +1,18 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
+import { RouterLink, RouterView, useRoute } from 'vue-router'
 import Menu from './components/Menu.vue'
+import { computed } from 'vue';
 
+const route = useRoute();
+
+const rotaSemMenu = computed(() =>
+  ['/login', '/cadastro'].includes(route.path)
+);
 
 </script>
 
 <template>
-  <Menu></Menu>
+  <Menu v-if="!rotaSemMenu" />
  <RouterView />
  
   

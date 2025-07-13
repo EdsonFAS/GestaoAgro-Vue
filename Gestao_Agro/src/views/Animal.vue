@@ -59,6 +59,7 @@
         <thead class="bg-gray-50">
           <tr>
             <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Brinco</th>
+             <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Nome</th>
             <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Idade</th>
             <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Sexo</th>
             <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Raça</th>
@@ -69,13 +70,14 @@
         <tbody class="bg-white divide-y divide-gray-200">
           <tr  v-for="Animal in animais" :key="Animal.CodigoBrinco" class="hover:bg-gray-50">
           <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ Animal.CodigoBrinco }}</td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ Animal.Nome }}</td>
             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ Animal.Idade }} meses</td>
             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ Animal.Sexo }}</td>
             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ Animal.Raca }}</td>
             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ Animal.Cor }}</td>
             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-              <button class="text-blue-600 hover:text-blue-900 mr-3">Editar</button>
-              <button class="text-red-600 hover:text-red-900">Excluir</button>
+              <button type="button" @click="abrirEdicao(Animal)" class="text-blue-600 hover:text-blue-900 mr-3">Editar</button>
+              <button @click="ExcluirAnimal(Animal)" class="text-red-600 hover:text-red-900">Excluir</button>
             </td>
           </tr>
         </tbody>
@@ -86,7 +88,7 @@
    
   </div>
 
-  <div v-if="CadastroModal" class="w-full absolute  top-0 h-lvh flex justify-center bg-black/50 backdrop-blur-sm">
+  <div v-if="CadastroModal" class="fixed inset-0 flex justify-center items-center bg-black/50 backdrop-blur-sm z-50">
  <div class="w-[76%] p-6 h-[88%] mt-18 top-12 flex flex-col  bg-white drop-shadow-lg shadow-neutral-600/50 rounded-2xl">
   <button type="button" @click="fecharCadastro" class="self-end mr-4 cursor-pointer">
     <svg  xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24"><path fill="currentColor" d="m12 13.4l-4.9 4.9q-.275.275-.7.275t-.7-.275t-.275-.7t.275-.7l4.9-4.9l-4.9-4.9q-.275-.275-.275-.7t.275-.7t.7-.275t.7.275l4.9 4.9l4.9-4.9q.275-.275.7-.275t.7.275t.275.7t-.275.7L13.4 12l4.9 4.9q.275.275.275.7t-.275.7t-.7.275t-.7-.275z"/></svg>
@@ -199,7 +201,7 @@
           <input class="w-full  font-semibold bg-white drop-shadow-sm h-9 px-4 focus:border-green-600 focus:border-[2px] focus:outline-none border border-gray-500/50 rounded-md mb-1" type="text" id="origem_materna"  required />
         </div>
       </div>
-      <button  class="w-48 self-center font-semibold justify-center bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 flex items-center cursor-pointer" type="submit">Cadastrar Animal</button>
+      <button  class="w-48 self-center font-semibold justify-center bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 flex items-center cursor-pointer" type="submit"> {{ modoEdicao ? 'Salvar alterações' : 'Cadastrar' }}</button>
      </form>
    </div>
    </div>
@@ -216,20 +218,28 @@ import { onMounted, ref, watch, } from 'vue';
     const fetchAnimais = () => 
     api.get("/animal").then((response) => (animais.value = response.data.Animais));
    
-  console.log(animais)
+ 
 
   onMounted(fetchAnimais)
-
+  const modoEdicao = ref(false)
   const formCadastro = ref<HTMLFormElement | null>(null)
     const CadastroModal = ref(false)
     const abrirCadastro = () =>{
-      CadastroModal.value = true
+      CadastroModal.value = true;
+       modoEdicao.value = false;
     } 
+
+    const abrirEdicao = (animalSelecionado: any) => {
+      modoEdicao.value = true;
+       CadastroModal.value = true;
+       animal.value={...animalSelecionado}
+
+    }
     
-        const fecharCadastro = () =>{
-      CadastroModal.value = false
-      formCadastro.value?.reset()
-      animal.value = {
+    const fecharCadastro = () =>{
+    CadastroModal.value = false
+    formCadastro.value?.reset()
+    animal.value = {
     CodigoBrinco: '',
     Nome: '',
     Raca: '',
@@ -266,7 +276,12 @@ const cadastrarAnimal = async () => {
 
     console.log('Payload correto:', animal.value)
 
-    await api.post('/animal', animal.value)
+    if(modoEdicao){
+       await api.put(`/animal/${animal.value.CodigoBrinco}`, animal.value)
+    }else{
+       await api.post('/animal', animal.value)
+    }
+
     await fetchAnimais()
     fecharCadastro()
   } catch (error: any) {
@@ -279,6 +294,24 @@ const cadastrarAnimal = async () => {
   }
 }
   
+const ExcluirAnimal = async (animalSelecionado: any) => {
+  try {
+
+    console.log('Payload correto:', animal.value)
+
+   await api.delete(`/animal/${animalSelecionado.CodigoBrinco}`)
+
+    await fetchAnimais()
+    fecharCadastro()
+  } catch (error: any) {
+    if (error.response) {
+      console.error('Status:', error.response.status)
+      console.error('Erro da API:', error.response.data)
+    } else {
+      console.error(error)
+    }
+  }
+}
  
 
 </script>
