@@ -276,7 +276,7 @@ const cadastrarAnimal = async () => {
 
     console.log('Payload correto:', animal.value)
 
-    if(modoEdicao){
+    if(modoEdicao.value){
        await api.put(`/animal/${animal.value.CodigoBrinco}`, animal.value)
     }else{
        await api.post('/animal', animal.value)
