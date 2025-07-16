@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen flex items-center justify-center bg-gray-100">
+  <div class="min-h-screen flex items-center justify-center bg-[url('/bg-login.jpg')] bg-cover bg-center">
     <div class="bg-white shadow-lg rounded-xl p-8 w-full max-w-md">
       <h1 class="text-2xl font-bold mb-6 text-center text-gray-800">Login</h1>
       <form @submit.prevent="handleLogin">

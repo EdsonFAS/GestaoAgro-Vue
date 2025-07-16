@@ -15,7 +15,7 @@
         <div class="flex items-center justify-between">
           <div>
             <p class="text-gray-500">Total de Animais</p>
-            <h3 class="text-2xl font-bold text-green-600"></h3>
+            <h3 class="text-2xl font-bold text-green-600">{{ animais.length }}</h3>
           </div>
           <div class="bg-green-100 p-3 rounded-full">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -194,11 +194,11 @@
       <div class="flex justify-center gap-6">
         <div class="w-[44%]">
           <label class="font-bold block" for="origem_paterna">Identificador Paterna:</label>
-          <input class="w-full font-semibold bg-white drop-shadow-sm h-9 px-4 focus:border-green-600 focus:border-[2px] focus:outline-none border border-gray-500/50 rounded-md mb-1" type="text" id="origem_paterna"  required />
+          <input class="w-full font-semibold bg-white drop-shadow-sm h-9 px-4 focus:border-green-600 focus:border-[2px] focus:outline-none border border-gray-500/50 rounded-md mb-1" type="text" id="origem_paterna" v-model="animal.IdPaterno"  required />
         </div>
         <div class="w-[44%]">
           <label class="font-bold block" for="origem_materna">Identificador Materna:</label>
-          <input class="w-full  font-semibold bg-white drop-shadow-sm h-9 px-4 focus:border-green-600 focus:border-[2px] focus:outline-none border border-gray-500/50 rounded-md mb-1" type="text" id="origem_materna"  required />
+          <input class="w-full  font-semibold bg-white drop-shadow-sm h-9 px-4 focus:border-green-600 focus:border-[2px] focus:outline-none border border-gray-500/50 rounded-md mb-1" type="text" id="origem_materna" v-model="animal.IdMatriz" required />
         </div>
       </div>
       <button  class="w-48 self-center font-semibold justify-center bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 flex items-center cursor-pointer" type="submit"> {{ modoEdicao ? 'Salvar alterações' : 'Cadastrar' }}</button>
