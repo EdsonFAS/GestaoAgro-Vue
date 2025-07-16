@@ -189,9 +189,6 @@ import { onMounted, ref, watch, } from 'vue';
     )
   
   );
-   
-   
- 
 
   onMounted(fetchSaude)
   const modoEdicao = ref(false)
@@ -237,8 +234,6 @@ import { onMounted, ref, watch, } from 'vue';
     Temperatura: null,
     fk_Animal_CodigoBrinco: null,
     DataVerificacao: '',
-
-   
     });
    
 const cadastrarSaude = async () => {
@@ -285,6 +280,5 @@ const ExcluirSaude = async (saudeSelecionado: any) => {
     }
   }
 }
- 
 
 </script>

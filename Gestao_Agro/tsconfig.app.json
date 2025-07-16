@@ -1,5 +1,5 @@
 {
-  "extends": "@vue/tsconfig/tsconfig.dom.json",
+  "extends": "./tsconfig.json",
   "include": ["env.d.ts", "src/**/*", "src/**/*.vue", "src/assets/Scripts", "public/chart-setup.js"],
   "exclude": ["src/**/__tests__/*"],
   "compilerOptions": {
