@@ -224,10 +224,13 @@ import { onMounted, ref, watch, } from 'vue';
   const modoEdicao = ref(false)
   const formCadastro = ref<HTMLFormElement | null>(null)
     const CadastroModal = ref(false)
+
+
+
     const abrirCadastro = () =>{
       CadastroModal.value = true;
        modoEdicao.value = false;
-    } 
+    }
 
     const abrirEdicao = (animalSelecionado: any) => {
       modoEdicao.value = true;
