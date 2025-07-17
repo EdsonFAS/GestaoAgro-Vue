@@ -132,6 +132,18 @@
   </div>
 </div>
   
+<!-- Modal de confirmação de exclusão -->
+<div v-if="mostrarConfirmacao" class="fixed inset-0 bg-black/50 backdrop-blur-sm flex justify-center items-center z-50">
+  <div class="bg-white rounded-2xl shadow-xl p-8 w-[90%] max-w-md text-center">
+    <h2 class="text-xl font-bold text-red-600 mb-4">Confirmar Exclusão</h2>
+    <p class="text-gray-700 mb-6">Tem certeza que deseja excluir este registro? Essa ação não pode ser desfeita.</p>
+    <div class="flex justify-center gap-4">
+      <button @click="confirmarExclusao" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700">Sim, excluir</button>
+      <button @click="cancelarExclusao" class="bg-gray-300 text-gray-800 px-4 py-2 rounded-lg hover:bg-gray-400">Cancelar</button>
+    </div>
+  </div>
+</div>
+
 </template>
 
 <script setup lang="ts">
@@ -218,23 +230,38 @@ const cadastrarProducao = async () => {
   }
 }
   
-const ExcluirProducao = async (producaoSelecionado: any) => {
+
+
+const mostrarConfirmacao = ref(false)
+const producaoParaExcluir = ref<any>(null)
+
+const ExcluirProducao = (producaoSelecionado: any) => {
+  producaoParaExcluir.value = producaoSelecionado
+  mostrarConfirmacao.value = true
+}
+
+const confirmarExclusao = async () => {
   try {
-
-    console.log('Payload correto:', Producao.value)
-
-   await api.delete(`/producao/${producaoSelecionado.Id}`)
-
+    await api.delete(`/producao/${producaoParaExcluir.value.Id}`)
     await fetchProducao()
-    fecharCadastro()
   } catch (error: any) {
     if (error.response) {
-      console.error('Status:', error.response.status)
       console.error('Erro da API:', error.response.data)
     } else {
       console.error(error)
     }
+  } finally {
+    mostrarConfirmacao.value = false
+    producaoParaExcluir.value = null
   }
 }
+
+const cancelarExclusao = () => {
+  mostrarConfirmacao.value = false
+  producaoParaExcluir.value = null
+}
+
+
+
 
 </script>
